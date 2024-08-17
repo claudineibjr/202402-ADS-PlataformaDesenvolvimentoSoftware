@@ -18,42 +18,42 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetClientes()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
             return await _context.Customers.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCliente(int id)
+        public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var cliente = await _context.Customers.FindAsync(id);
+            var customer = await _context.Customers.FindAsync(id);
 
-            if (cliente == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return cliente;
+            return customer;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCliente(Customer cliente)
+        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-            _context.Customers.Add(cliente);
+            _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetCliente), new { id = cliente.Id }, cliente);
+            return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCliente(int id, Customer cliente)
+        public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
-            if (id != cliente.Id)
+            if (id != customer.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(cliente).State = EntityState.Modified;
+            _context.Entry(customer).State = EntityState.Modified;
 
             try
             {
@@ -75,15 +75,15 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCliente(int id)
+        public async Task<IActionResult> DeleteCustomer(int id)
         {
-            var cliente = await _context.Customers.FindAsync(id);
-            if (cliente == null)
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            _context.Customers.Remove(cliente);
+            _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
 
             return NoContent();
