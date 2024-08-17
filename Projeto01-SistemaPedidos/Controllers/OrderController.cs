@@ -68,14 +68,29 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(string id, Order order)
+        public async Task<IActionResult> PutOrder(string id, OrderDTO orderDTO)
         {
-            if (id != order.Id)
+            Customer? customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == orderDTO.CustomerId);
+            if (customer == null)
             {
                 return BadRequest();
             }
 
-            _context.Entry(order).State = EntityState.Modified;
+            ICollection<Product> products = await _context.Products.Where(p => orderDTO.Products.Select(pi => pi.ProductId).Contains(p.Id)).ToListAsync();
+
+            Order order = new Order
+            {
+                Customer = customer,
+                OrderDate = DateTime.Now,
+                Products = products,
+                TotalAmout = products.Sum(p =>
+                {
+                    double itemQuantity = orderDTO.Products.FirstOrDefault(pi => pi.ProductId == p.Id)?.Quantity ?? 1;
+                    return p.Price * itemQuantity;
+                })
+            };
+
+            _context.Entry(orderDTO).State = EntityState.Modified;
 
             try
             {
