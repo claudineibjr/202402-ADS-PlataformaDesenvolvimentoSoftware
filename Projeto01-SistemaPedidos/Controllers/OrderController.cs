@@ -1,31 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Projeto01_SistemaPedidos.Models;
-using Projeto01_SistemaPedidos.Repositories;
+using Projeto01_OrdersManager.Models;
+using Projeto01_OrdersManager.Repositories;
 
-namespace Projeto01_SistemaPedidos.Controllers
+namespace Projeto01_OrdersManager.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PedidoController : ControllerBase
+    public class OrderController : ControllerBase
     {
-        private readonly PedidosDbContext _context;
+        private readonly OrdersDbContext _context;
 
-        public PedidoController(PedidosDbContext context)
+        public OrderController(OrdersDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pedido>>> GetPedidos()
+        public async Task<ActionResult<IEnumerable<Order>>> GetPedidos()
         {
-            return await _context.Pedidos.Include(p => p.Cliente).Include(p => p.Produtos).ToListAsync();
+            return await _context.Orders.Include(p => p.Cliente).Include(p => p.Produtos).ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Pedido>> GetPedido(int id)
+        public async Task<ActionResult<Order>> GetPedido(int id)
         {
-            var pedido = await _context.Pedidos
+            var pedido = await _context.Orders
                 .Include(p => p.Cliente)
                 .Include(p => p.Produtos)
                 .FirstOrDefaultAsync(p => p.Id == id);
@@ -39,16 +39,16 @@ namespace Projeto01_SistemaPedidos.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Pedido>> PostPedido(Pedido pedido)
+        public async Task<ActionResult<Order>> PostPedido(Order pedido)
         {
-            _context.Pedidos.Add(pedido);
+            _context.Orders.Add(pedido);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPedido), new { id = pedido.Id }, pedido);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPedido(int id, Pedido pedido)
+        public async Task<IActionResult> PutPedido(int id, Order pedido)
         {
             if (id != pedido.Id)
             {
@@ -63,7 +63,7 @@ namespace Projeto01_SistemaPedidos.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Pedidos.Any(e => e.Id == id))
+                if (!_context.Orders.Any(e => e.Id == id))
                 {
                     return NotFound();
                 }
@@ -79,13 +79,13 @@ namespace Projeto01_SistemaPedidos.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePedido(int id)
         {
-            var pedido = await _context.Pedidos.FindAsync(id);
+            var pedido = await _context.Orders.FindAsync(id);
             if (pedido == null)
             {
                 return NotFound();
             }
 
-            _context.Pedidos.Remove(pedido);
+            _context.Orders.Remove(pedido);
             await _context.SaveChangesAsync();
 
             return NoContent();

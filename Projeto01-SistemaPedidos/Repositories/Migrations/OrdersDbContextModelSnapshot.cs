@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Projeto01_SistemaPedidos.Repositories;
+using Projeto01_OrdersManager.Repositories;
 
 #nullable disable
 
-namespace Projeto01_SistemaPedidos.Repositories.Migrations
+namespace Projeto01_OrdersManager.Repositories.Migrations
 {
-    [DbContext(typeof(PedidosDbContext))]
-    [Migration("20240817153653_MigracaoInicial")]
-    partial class MigracaoInicial
+    [DbContext(typeof(OrdersDbContext))]
+    partial class OrdersDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,7 +24,7 @@ namespace Projeto01_SistemaPedidos.Repositories.Migrations
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Projeto01_SistemaPedidos.Models.Cliente", b =>
+            modelBuilder.Entity("Projeto01_OrdersManager.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,10 +46,10 @@ namespace Projeto01_SistemaPedidos.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clientes");
+                    b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Projeto01_SistemaPedidos.Models.Pedido", b =>
+            modelBuilder.Entity("Projeto01_OrdersManager.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,10 +67,10 @@ namespace Projeto01_SistemaPedidos.Repositories.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Pedidos");
+                    b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Projeto01_SistemaPedidos.Models.Produto", b =>
+            modelBuilder.Entity("Projeto01_OrdersManager.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,7 +86,7 @@ namespace Projeto01_SistemaPedidos.Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("PedidoId")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Preco")
@@ -97,14 +94,14 @@ namespace Projeto01_SistemaPedidos.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PedidoId");
+                    b.HasIndex("OrderId");
 
-                    b.ToTable("Produtos");
+                    b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Projeto01_SistemaPedidos.Models.Pedido", b =>
+            modelBuilder.Entity("Projeto01_OrdersManager.Models.Order", b =>
                 {
-                    b.HasOne("Projeto01_SistemaPedidos.Models.Cliente", "Cliente")
+                    b.HasOne("Projeto01_OrdersManager.Models.Customer", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -113,14 +110,14 @@ namespace Projeto01_SistemaPedidos.Repositories.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("Projeto01_SistemaPedidos.Models.Produto", b =>
+            modelBuilder.Entity("Projeto01_OrdersManager.Models.Product", b =>
                 {
-                    b.HasOne("Projeto01_SistemaPedidos.Models.Pedido", null)
+                    b.HasOne("Projeto01_OrdersManager.Models.Order", null)
                         .WithMany("Produtos")
-                        .HasForeignKey("PedidoId");
+                        .HasForeignKey("OrderId");
                 });
 
-            modelBuilder.Entity("Projeto01_SistemaPedidos.Models.Pedido", b =>
+            modelBuilder.Entity("Projeto01_OrdersManager.Models.Order", b =>
                 {
                     b.Navigation("Produtos");
                 });

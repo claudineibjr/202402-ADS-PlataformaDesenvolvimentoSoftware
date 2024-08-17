@@ -1,32 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Projeto01_SistemaPedidos.Models;
-using Projeto01_SistemaPedidos.Repositories;
+using Projeto01_OrdersManager.Models;
+using Projeto01_OrdersManager.Repositories;
 
-namespace Projeto01_SistemaPedidos.Controllers
+namespace Projeto01_OrdersManager.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ClienteController : ControllerBase
+    public class CustomerController : ControllerBase
     {
         
-        private readonly PedidosDbContext _context;
+        private readonly OrdersDbContext _context;
 
-        public ClienteController(PedidosDbContext context)
+        public CustomerController(OrdersDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetClientes()
         {
-            return await _context.Clientes.ToListAsync();
+            return await _context.Customers.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cliente>> GetCliente(int id)
+        public async Task<ActionResult<Customer>> GetCliente(int id)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
+            var cliente = await _context.Customers.FindAsync(id);
 
             if (cliente == null)
             {
@@ -37,16 +37,16 @@ namespace Projeto01_SistemaPedidos.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
+        public async Task<ActionResult<Customer>> PostCliente(Customer cliente)
         {
-            _context.Clientes.Add(cliente);
+            _context.Customers.Add(cliente);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetCliente), new { id = cliente.Id }, cliente);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCliente(int id, Cliente cliente)
+        public async Task<IActionResult> PutCliente(int id, Customer cliente)
         {
             if (id != cliente.Id)
             {
@@ -61,7 +61,7 @@ namespace Projeto01_SistemaPedidos.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Clientes.Any(e => e.Id == id))
+                if (!_context.Customers.Any(e => e.Id == id))
                 {
                     return NotFound();
                 }
@@ -77,13 +77,13 @@ namespace Projeto01_SistemaPedidos.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCliente(int id)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
+            var cliente = await _context.Customers.FindAsync(id);
             if (cliente == null)
             {
                 return NotFound();
             }
 
-            _context.Clientes.Remove(cliente);
+            _context.Customers.Remove(cliente);
             await _context.SaveChangesAsync();
 
             return NoContent();

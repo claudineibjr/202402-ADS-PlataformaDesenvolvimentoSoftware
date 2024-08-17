@@ -1,30 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Projeto01_SistemaPedidos.Models;
-using Projeto01_SistemaPedidos.Repositories;
+using Projeto01_OrdersManager.Models;
+using Projeto01_OrdersManager.Repositories;
 
-namespace Projeto01_SistemaPedidos.Controllers
+namespace Projeto01_OrdersManager.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProdutoController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        private readonly PedidosDbContext _context;
-        public ProdutoController(PedidosDbContext context)
+        private readonly OrdersDbContext _context;
+        public ProductController(OrdersDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProdutos()
         {
-            return await _context.Produtos.ToListAsync();
+            return await _context.Products.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Produto>> GetProduto(int id)
+        public async Task<ActionResult<Product>> GetProduto(int id)
         {
-            var produto = await _context.Produtos.FindAsync(id);
+            var produto = await _context.Products.FindAsync(id);
 
             if (produto == null)
             {
@@ -35,16 +35,16 @@ namespace Projeto01_SistemaPedidos.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Produto>> PostProduto(Produto produto)
+        public async Task<ActionResult<Product>> PostProduto(Product produto)
         {
-            _context.Produtos.Add(produto);
+            _context.Products.Add(produto);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetProduto), new { id = produto.Id }, produto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduto(int id, Produto produto)
+        public async Task<IActionResult> PutProduto(int id, Product produto)
         {
             if (id != produto.Id)
             {
@@ -59,7 +59,7 @@ namespace Projeto01_SistemaPedidos.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Produtos.Any(e => e.Id == id))
+                if (!_context.Products.Any(e => e.Id == id))
                 {
                     return NotFound();
                 }
@@ -75,13 +75,13 @@ namespace Projeto01_SistemaPedidos.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduto(int id)
         {
-            var produto = await _context.Produtos.FindAsync(id);
+            var produto = await _context.Products.FindAsync(id);
             if (produto == null)
             {
                 return NotFound();
             }
 
-            _context.Produtos.Remove(produto);
+            _context.Products.Remove(produto);
             await _context.SaveChangesAsync();
 
             return NoContent();

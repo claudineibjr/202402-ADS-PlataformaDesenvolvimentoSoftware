@@ -1,6 +1,6 @@
-﻿namespace Projeto01_SistemaPedidos.Models
+﻿namespace Projeto01_OrdersManager.Models
 {
-    public class Cliente
+    public class Customer
     {
         public int Id { get; set; }
         public string Nome { get; set; }
