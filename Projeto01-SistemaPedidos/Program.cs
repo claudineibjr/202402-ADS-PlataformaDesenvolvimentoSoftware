@@ -1,25 +1,47 @@
+using Microsoft.EntityFrameworkCore;
+using Projeto01_SistemaPedidos.Repositories;
+
 namespace Projeto01_SistemaPedidos
 {
     public class Program
     {
+        private static void ConfigureSwagger(IServiceCollection services)
+        {
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+        }
+
+        private static void InjectRepositoryDependency(IHostApplicationBuilder builder)
+        {
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<PedidosDbContext>(options =>
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+            );
+
+            builder.Services.AddControllers();
+        }
+
+        private static void InitializeSwagger(WebApplication app) {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Configuração do Swagger
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            ConfigureSwagger(builder.Services);
+            InjectRepositoryDependency(builder);
 
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
             {
                 // Inicialização do Swagger
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                InitializeSwagger(app);
             }
 
-            app.MapGet("/", () => "Hello World!");
+            app.MapControllers();
 
             app.Run();
         }
