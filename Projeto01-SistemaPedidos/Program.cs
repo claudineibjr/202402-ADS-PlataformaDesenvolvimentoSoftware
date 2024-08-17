@@ -26,6 +26,26 @@ namespace Projeto01_OrdersManager
             app.UseSwaggerUI();
         }
 
+        private static void SeedOnInitialize(WebApplication app)
+        {
+            // Configura o banco de dados com dados de seed
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<OrdersDbContext>();
+                    SeedData.Initialize(services);
+                }
+                catch (Exception ex)
+                {
+                    // Log error
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while seeding the database.");
+                }
+            }
+        }
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +60,8 @@ namespace Projeto01_OrdersManager
                 // Inicialização do Swagger
                 InitializeSwagger(app);
             }
+
+            SeedOnInitialize(app);
 
             app.MapControllers();
 
