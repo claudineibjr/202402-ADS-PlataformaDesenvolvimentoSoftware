@@ -44,7 +44,7 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutProduct(string id, Product product)
         {
             if (id != product.Id)
             {
@@ -73,7 +73,7 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProduct(string id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)

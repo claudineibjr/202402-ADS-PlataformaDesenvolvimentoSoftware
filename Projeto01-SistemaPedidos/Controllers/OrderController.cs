@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Projeto01_OrdersManager.DTOs;
 using Projeto01_OrdersManager.Models;
 using Projeto01_OrdersManager.Repositories;
 
@@ -23,7 +24,7 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
+        public async Task<ActionResult<Order>> GetOrder(string id)
         {
             var order = await _context.Orders
                 .Include(p => p.Customer)
@@ -39,8 +40,27 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        public async Task<ActionResult<Order>> PostOrder(OrderDTO orderDTO)
         {
+            Customer? customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == orderDTO.CustomerId);
+            if (customer == null)
+            {
+                return BadRequest();
+            }
+
+            ICollection<Product> products = await _context.Products.Where(p => orderDTO.Products.Select(pi => pi.ProductId).Contains(p.Id)).ToListAsync();
+
+            Order order = new Order {
+                Customer = customer,
+                OrderDate = DateTime.Now,
+                Products = products,
+                TotalAmout = products.Sum(p =>
+                {
+                    double itemQuantity = orderDTO.Products.FirstOrDefault(pi => pi.ProductId == p.Id)?.Quantity ?? 1;
+                    return p.Price * itemQuantity;
+                })
+            };
+
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
@@ -48,7 +68,7 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(int id, Order order)
+        public async Task<IActionResult> PutOrder(string id, Order order)
         {
             if (id != order.Id)
             {
@@ -77,7 +97,7 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(int id)
+        public async Task<IActionResult> DeleteOrder(string id)
         {
             var order = await _context.Orders.FindAsync(id);
             if (order == null)

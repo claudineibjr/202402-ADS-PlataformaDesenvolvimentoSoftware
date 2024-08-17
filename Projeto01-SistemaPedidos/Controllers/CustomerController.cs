@@ -24,7 +24,7 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public async Task<ActionResult<Customer>> GetCustomer(string id)
         {
             var customer = await _context.Customers.FindAsync(id);
 
@@ -46,7 +46,7 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        public async Task<IActionResult> PutCustomer(string id, Customer customer)
         {
             if (id != customer.Id)
             {
@@ -75,7 +75,7 @@ namespace Projeto01_OrdersManager.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(int id)
+        public async Task<IActionResult> DeleteCustomer(string id)
         {
             var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
