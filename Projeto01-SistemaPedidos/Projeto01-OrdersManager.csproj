@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Projeto01_SistemaPedidos</RootNamespace>
+    <RootNamespace>Projeto01_OrdersManager</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

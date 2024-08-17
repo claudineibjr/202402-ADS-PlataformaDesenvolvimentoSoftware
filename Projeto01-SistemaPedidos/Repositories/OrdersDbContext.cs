@@ -1,19 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Projeto01_SistemaPedidos.Models;
+using Projeto01_OrdersManager.Models;
 
-namespace Projeto01_SistemaPedidos.Repositories;
+namespace Projeto01_OrdersManager.Repositories;
 
-public partial class PedidosDbContext : DbContext
+public partial class OrdersDbContext : DbContext
 {
-    public DbSet<Cliente> Clientes { get; set; }
-    public DbSet<Produto> Produtos { get; set; }
-    public DbSet<Pedido> Pedidos { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Order> Orders { get; set; }
 
-    public PedidosDbContext()
+    public OrdersDbContext()
     {
     }
 
-    public PedidosDbContext(DbContextOptions<PedidosDbContext> options)
+    public OrdersDbContext(DbContextOptions<OrdersDbContext> options)
         : base(options)
     {
     }

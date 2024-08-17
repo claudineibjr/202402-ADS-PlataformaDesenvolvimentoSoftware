@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Projeto01_SistemaPedidos.Repositories;
+using Projeto01_OrdersManager.Repositories;
 
-namespace Projeto01_SistemaPedidos
+namespace Projeto01_OrdersManager
 {
     public class Program
     {
@@ -14,7 +14,7 @@ namespace Projeto01_SistemaPedidos
         private static void InjectRepositoryDependency(IHostApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<PedidosDbContext>(options =>
+            builder.Services.AddDbContext<OrdersDbContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             );
 
