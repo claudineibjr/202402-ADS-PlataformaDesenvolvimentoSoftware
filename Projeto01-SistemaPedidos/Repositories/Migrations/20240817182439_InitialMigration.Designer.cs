@@ -12,8 +12,8 @@ using Projeto01_OrdersManager.Repositories;
 namespace Projeto01_OrdersManager.Repositories.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    [Migration("20240817160917_RenamingFieldsToEnglish")]
-    partial class RenamingFieldsToEnglish
+    [Migration("20240817182439_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,11 +29,8 @@ namespace Projeto01_OrdersManager.Repositories.Migrations
 
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -54,17 +51,18 @@ namespace Projeto01_OrdersManager.Repositories.Migrations
 
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<double>("TotalAmout")
+                        .HasColumnType("double");
 
                     b.HasKey("Id");
 
@@ -75,11 +73,8 @@ namespace Projeto01_OrdersManager.Repositories.Migrations
 
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -89,11 +84,11 @@ namespace Projeto01_OrdersManager.Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("OrderId")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
 
                     b.HasKey("Id");
 
