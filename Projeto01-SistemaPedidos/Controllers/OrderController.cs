@@ -19,15 +19,15 @@ namespace Projeto01_OrdersManager.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetPedidos()
         {
-            return await _context.Orders.Include(p => p.Cliente).Include(p => p.Produtos).ToListAsync();
+            return await _context.Orders.Include(p => p.Customer).Include(p => p.Products).ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetPedido(int id)
         {
             var pedido = await _context.Orders
-                .Include(p => p.Cliente)
-                .Include(p => p.Produtos)
+                .Include(p => p.Customer)
+                .Include(p => p.Products)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (pedido == null)

@@ -3,8 +3,8 @@
     public class Order
     {
         public int Id { get; set; }
-        public Customer Cliente { get; set; }
-        public DateTime DataPedido { get; set; }
-        public ICollection<Product> Produtos { get; set; }
+        public Customer Customer { get; set; }
+        public DateTime OrderDate { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }
