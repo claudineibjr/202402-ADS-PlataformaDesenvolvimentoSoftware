@@ -8,7 +8,7 @@ using Projeto01_OrdersManager.Repositories.Data;
 
 #nullable disable
 
-namespace Projeto01_OrdersManager.Repositories.Migrations
+namespace Projeto01_OrdersManager.Repositories.Data.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
     partial class OrdersDbContextModelSnapshot : ModelSnapshot
@@ -23,6 +23,21 @@ namespace Projeto01_OrdersManager.Repositories.Migrations
 
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<string>("ProductsId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ordersId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("ProductsId", "ordersId");
+
+                    b.HasIndex("ordersId");
+
+                    b.ToTable("OrderProduct");
+                });
 
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Customer", b =>
                 {
@@ -84,17 +99,27 @@ namespace Projeto01_OrdersManager.Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("varchar(255)");
-
                     b.Property<double>("Price")
                         .HasColumnType("double");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.HasOne("Projeto01_OrdersManager.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Projeto01_OrdersManager.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("ordersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Order", b =>
@@ -106,18 +131,6 @@ namespace Projeto01_OrdersManager.Repositories.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("Projeto01_OrdersManager.Models.Product", b =>
-                {
-                    b.HasOne("Projeto01_OrdersManager.Models.Order", null)
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
-                });
-
-            modelBuilder.Entity("Projeto01_OrdersManager.Models.Order", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

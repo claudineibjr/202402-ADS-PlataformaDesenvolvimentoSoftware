@@ -45,9 +45,9 @@ namespace Projeto01_OrdersManager.Controllers
             return customer;
         }
 
-        private async Task<ICollection<Product>> GetProducts(IEnumerable<string> productsIds)
+        private async Task<List<Product>> GetProducts(IEnumerable<string> productsIds)
         {
-            ICollection<Product> products = await _context
+            List<Product> products = await _context
                 .Products
                 .Where(p => productsIds.Contains(p.Id))
                 .ToListAsync();
@@ -81,14 +81,14 @@ namespace Projeto01_OrdersManager.Controllers
                 return BadRequest();
             }
 
-            ICollection<Product> products = await GetProducts(orderDTO.Products.Select(pi => pi.ProductId));
+            List<Product> products = await GetProducts(orderDTO.Products.Select(pi => pi.ProductId));
 
-            Order order = new Order {
-                Customer = customer,
-                OrderDate = DateTime.Now,
-                Products = products,
-                TotalAmout = CalculateTotal(products, orderDTO.Products),
-            };
+            Order order = new Order(
+                customer: customer,
+                products: products,
+                orderDate: DateTime.Now,
+                totalAmout: CalculateTotal(products, orderDTO.Products)
+            );
 
             order = await SaveOrder(order);
 
@@ -104,19 +104,18 @@ namespace Projeto01_OrdersManager.Controllers
                 return BadRequest();
             }
 
-            ICollection<Product> products = await _context.Products.Where(p => orderDTO.Products.Select(pi => pi.ProductId).Contains(p.Id)).ToListAsync();
+            List<Product> products = await _context.Products.Where(p => orderDTO.Products.Select(pi => pi.ProductId).Contains(p.Id)).ToListAsync();
 
-            Order order = new Order
-            {
-                Customer = customer,
-                OrderDate = DateTime.Now,
-                Products = products,
-                TotalAmout = products.Sum(p =>
+            Order order = new Order(
+                customer: customer,
+                products: products,
+                orderDate: DateTime.Now,
+                totalAmout: products.Sum(p =>
                 {
                     double itemQuantity = orderDTO.Products.FirstOrDefault(pi => pi.ProductId == p.Id)?.Quantity ?? 1;
                     return p.Price * itemQuantity;
                 })
-            };
+            );
 
             _context.Entry(orderDTO).State = EntityState.Modified;
 

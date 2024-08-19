@@ -14,37 +14,37 @@ namespace Projeto01_OrdersManager.Repositories.Data
                 if (!context.Products.Any())
                 {
                     context.Products.AddRange(
-                        new Product { Id = "Veja", Name = "Veja Multiuso", Description = "Desinfetante multiuso para limpeza", Price = 5.0 },
-                        new Product { Id = "Omo", Name = "Omo Desinfetante", Description = "Desinfetante para pisos e superfícies", Price = 6.5 },
-                        new Product { Id = "Bombril", Name = "Bombril Esponja", Description = "Esponja de aço para limpeza de panelas", Price = 2.5 },
-                        new Product { Id = "Trakinas", Name = "Biscuits Recheado Trakinas", Description = "Biscoito recheado com chocolate", Price = 4.5 },
-                        new Product { Id = "Bono", Name = "Biscuits Recheado Bono", Description = "Biscoito recheado com morango", Price = 4.5 },
-                        new Product { Id = "Coca_Cola", Name = "Coca-Cola", Description = "Refrigerante sabor cola", Price = 5.0 },
-                        new Product { Id = "Fanta", Name = "Fanta Laranja", Description = "Refrigerante sabor laranja", Price = 5.0 },
-                        new Product { Id = "Tal_Qual", Name = "Tal & Qual", Description = "Adoçante light para café", Price = 8.0 },
-                        new Product { Id = "Liza_Light", Name = "Óleo de Cozinha Liza Light", Description = "Óleo de cozinha light", Price = 8.5 },
-                        new Product { Id = "Dove", Name = "Dove Sabonete Líquido", Description = "Sabonete líquido para mãos", Price = 4.5 },
-                        new Product { Id = "Pantene", Name = "Pantene Shampoo", Description = "Shampoo hidratante", Price = 10.0 },
-                        new Product { Id = "Nivea", Name = "Nivea Condicionador", Description = "Condicionador para cabelos secos", Price = 10.5 },
-                        new Product { Id = "Club_Social", Name = "Club Social Biscoito Salgado", Description = "Biscoito salgado para lanches", Price = 3.5 },
-                        new Product { Id = "Qboa", Name = "Qboa Água Sanitária", Description = "Água sanitária para limpeza", Price = 4.5 },
-                        new Product { Id = "Guaraná_Antarctica", Name = "Guaraná Antarctica", Description = "Refrigerante sabor guaraná", Price = 5.0 },
-                        new Product { Id = "Snack_Açaí", Name = "Snack Light Açaí", Description = "Snack light para dieta", Price = 7.5 },
-                        new Product { Id = "Neutrogena", Name = "Neutrogena Sabonete Facial", Description = "Sabonete facial para pele oleosa", Price = 7.5 },
-                        new Product { Id = "Ypê", Name = "Desinfetante Ypê", Description = "Desinfetante com aroma de lavanda", Price = 7.0 },
-                        new Product { Id = "Marilan", Name = "Biscoito Integral Marilan", Description = "Biscoito integral com grãos", Price = 5.5 },
-                        new Product { Id = "Pepsi_Diet", Name = "Pepsi Diet", Description = "Refrigerante diet sem açúcar", Price = 6.0 }
+                        new Product(id: "Veja", name: "Veja Multiuso", description: "Desinfetante multiuso para limpeza", price: 5.0),
+                        new Product(id: "Omo", name: "Omo Desinfetante", description: "Desinfetante para pisos e superfícies", price: 6.5),
+                        new Product(id: "Bombril", name: "Bombril Esponja", description: "Esponja de aço para limpeza de panelas", price: 2.5),
+                        new Product(id: "Trakinas", name: "Biscuits Recheado Trakinas", description: "Biscoito recheado com chocolate", price: 4.5),
+                        new Product(id: "Bono", name: "Biscuits Recheado Bono", description: "Biscoito recheado com morango", price: 4.5),
+                        new Product(id: "Coca_Cola", name: "Coca-Cola", description: "Refrigerante sabor cola", price: 5.0),
+                        new Product(id: "Fanta", name: "Fanta Laranja", description: "Refrigerante sabor laranja", price: 5.0),
+                        new Product(id: "Tal_Qual", name: "Tal & Qual", description: "Adoçante light para café", price: 8.0),
+                        new Product(id: "Liza_Light", name: "Óleo de Cozinha Liza Light", description: "Óleo de cozinha light", price: 8.5),
+                        new Product(id: "Dove", name: "Dove Sabonete Líquido", description: "Sabonete líquido para mãos", price: 4.5),
+                        new Product(id: "Pantene", name: "Pantene Shampoo", description: "Shampoo hidratante", price: 10.0),
+                        new Product(id: "Nivea", name: "Nivea Condicionador", description: "Condicionador para cabelos secos", price: 10.5),
+                        new Product(id: "Club_Social", name: "Club Social Biscoito Salgado", description: "Biscoito salgado para lanches", price: 3.5),
+                        new Product(id: "Qboa", name: "Qboa Água Sanitária", description: "Água sanitária para limpeza", price: 4.5),
+                        new Product(id: "Guaraná_Antarctica", name: "Guaraná Antarctica", description: "Refrigerante sabor guaraná", price: 5.0),
+                        new Product(id: "Snack_Açaí", name: "Snack Light Açaí", description: "Snack light para dieta", price: 7.5),
+                        new Product(id: "Neutrogena", name: "Neutrogena Sabonete Facial", description: "Sabonete facial para pele oleosa", price: 7.5),
+                        new Product(id: "Ypê", name: "Desinfetante Ypê", description: "Desinfetante com aroma de lavanda", price: 7.0),
+                        new Product(id: "Marilan", name: "Biscoito Integral Marilan", description: "Biscoito integral com grãos", price: 5.5),
+                        new Product(id: "Pepsi_Diet", name: "Pepsi Diet", description: "Refrigerante diet sem açúcar", price: 6.0)
                     );
                 }
 
                 if (!context.Customers.Any())
                 {
                     context.Customers.AddRange(
-                        new Customer { Id = "Maria_Silva", Name = "Maria Silva", Email = "maria.silva@example.com", PhoneNumber = "11987654321" },
-                        new Customer { Id = "João_Souza", Name = "João Souza", Email = "joao.souza@example.com", PhoneNumber = "21912345678" },
-                        new Customer { Id = "Ana_Pereira", Name = "Ana Pereira", Email = "ana.pereira@example.com", PhoneNumber = "31998765432" },
-                        new Customer { Id = "Carlos_Oliveira", Name = "Carlos Oliveira", Email = "carlos.oliveira@example.com", PhoneNumber = "41987651234" },
-                        new Customer { Id = "Fernanda_Costa", Name = "Fernanda Costa", Email = "fernanda.costa@example.com", PhoneNumber = "51932148765" }
+                        new Customer(id: "Maria_Silva", name: "Maria Silva", email: "maria.silva@example.com", phoneNumber: "11987654321"),
+                        new Customer(id: "João_Souza", name: "João Souza", email: "joao.souza@example.com", phoneNumber: "21912345678"),
+                        new Customer(id: "Ana_Pereira", name: "Ana Pereira", email: "ana.pereira@example.com", phoneNumber: "31998765432"),
+                        new Customer(id: "Carlos_Oliveira", name: "Carlos Oliveira", email: "carlos.oliveira@example.com", phoneNumber: "41987651234"),
+                        new Customer(id: "Fernanda_Costa", name: "Fernanda Costa", email: "fernanda.costa@example.com", phoneNumber: "51932148765")
                     );
                 }
 
