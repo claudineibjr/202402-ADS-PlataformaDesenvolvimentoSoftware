@@ -39,30 +39,58 @@ namespace Projeto01_OrdersManager.Controllers
             return order;
         }
 
+        private async Task<Customer?> GetCustomer(string customerId)
+        {
+            Customer? customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
+            return customer;
+        }
+
+        private async Task<ICollection<Product>> GetProducts(IEnumerable<string> productsIds)
+        {
+            ICollection<Product> products = await _context
+                .Products
+                .Where(p => productsIds.Contains(p.Id))
+                .ToListAsync();
+
+            return products;
+        }
+
+        private double CalculateTotal(ICollection<Product> products, ICollection<ProductItemDTO> productItemsDTOs)
+        {
+            return products.Sum(p =>
+            {
+                double itemQuantity = productItemsDTOs.FirstOrDefault(pi => pi.ProductId == p.Id)?.Quantity ?? 1;
+                return p.Price * itemQuantity;
+            });
+        }
+
+        private async Task<Order> SaveOrder(Order order)
+        {
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            return order;
+        }
+
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(OrderDTO orderDTO)
         {
-            Customer? customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == orderDTO.CustomerId);
+            Customer? customer = await GetCustomer(orderDTO.CustomerId);   
             if (customer == null)
             {
                 return BadRequest();
             }
 
-            ICollection<Product> products = await _context.Products.Where(p => orderDTO.Products.Select(pi => pi.ProductId).Contains(p.Id)).ToListAsync();
+            ICollection<Product> products = await GetProducts(orderDTO.Products.Select(pi => pi.ProductId));
 
             Order order = new Order {
                 Customer = customer,
                 OrderDate = DateTime.Now,
                 Products = products,
-                TotalAmout = products.Sum(p =>
-                {
-                    double itemQuantity = orderDTO.Products.FirstOrDefault(pi => pi.ProductId == p.Id)?.Quantity ?? 1;
-                    return p.Price * itemQuantity;
-                })
+                TotalAmout = CalculateTotal(products, orderDTO.Products),
             };
 
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+            order = await SaveOrder(order);
 
             return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
         }
