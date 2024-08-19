@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Projeto01_OrdersManager.Repositories;
+using Projeto01_OrdersManager.Repositories.Data;
 
 #nullable disable
 
 namespace Projeto01_OrdersManager.Repositories.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    [Migration("20240817182439_InitialMigration")]
-    partial class InitialMigration
+    partial class OrdersDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,6 +27,7 @@ namespace Projeto01_OrdersManager.Repositories.Migrations
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Customer", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Email")
@@ -52,6 +50,7 @@ namespace Projeto01_OrdersManager.Repositories.Migrations
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Order", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("CustomerId")
@@ -74,6 +73,7 @@ namespace Projeto01_OrdersManager.Repositories.Migrations
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Product", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Description")

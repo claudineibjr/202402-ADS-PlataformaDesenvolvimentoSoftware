@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Projeto01_OrdersManager.Models;
 
-namespace Projeto01_OrdersManager.Repositories
+namespace Projeto01_OrdersManager.Repositories.Data
 {
     public class SeedData
     {

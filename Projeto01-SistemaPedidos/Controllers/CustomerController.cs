@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Projeto01_OrdersManager.Models;
-using Projeto01_OrdersManager.Repositories;
+using Projeto01_OrdersManager.Repositories.Data;
 
 namespace Projeto01_OrdersManager.Controllers
 {
