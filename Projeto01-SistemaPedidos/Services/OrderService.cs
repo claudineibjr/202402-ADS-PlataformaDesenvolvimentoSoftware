@@ -7,22 +7,22 @@ namespace Projeto01_OrdersManager.Services
 {
     public class OrderService
     {
-        private readonly OrdersDbContext _context;
+        private readonly OrderRepository _orderRepository;
+        private readonly CustomerRepository _customerRepository;
+        private readonly ProductRepository _productRepository;
 
-        public OrderService(OrdersDbContext context)
+        public OrderService(OrderRepository orderRepository, CustomerRepository customerRepository, ProductRepository productRepository)
         {
-            _context = context;
+            _orderRepository = orderRepository;
+            _customerRepository = customerRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<Order> CreateOrder(OrderDTO orderDTO)
-        {
-            OrderRepository orderRepository = new OrderRepository(_context);
-            CustomerRepository customerRepository = new CustomerRepository(_context);
-            ProductRepository productRepository = new ProductRepository(_context);
-
-            Customer customer = await customerRepository.GetCustomer(orderDTO.CustomerId);
+        {   
+            Customer customer = await _customerRepository.GetCustomer(orderDTO.CustomerId);
             
-            List<Product> products = await productRepository.GetProducts(orderDTO.Products.Select(pi => pi.ProductId));
+            List<Product> products = await _productRepository.GetProducts(orderDTO.Products.Select(pi => pi.ProductId));
             List<OrderItem> orderItems = orderDTO.
                 Products
                 .Select(pi => new OrderItem { Product = products.First(p => p.Id == pi.ProductId), Quantity = pi.Quantity })
@@ -34,7 +34,7 @@ namespace Projeto01_OrdersManager.Services
                 orderDate: DateTime.Now
             );
 
-            order = await orderRepository.SaveOrder(order);
+            order = await _orderRepository.SaveOrder(order);
 
             return order;
         }

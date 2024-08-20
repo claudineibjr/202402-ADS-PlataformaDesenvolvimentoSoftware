@@ -12,10 +12,12 @@ namespace Projeto01_OrdersManager.Controllers
     public class OrderController : ControllerBase
     {
         private readonly OrdersDbContext _context;
+        private readonly OrderService _service;
 
-        public OrderController(OrdersDbContext context)
+        public OrderController(OrdersDbContext context, OrderService service)
         {
             _context = context;
+            _service = service;
         }
 
         [HttpGet]
@@ -43,8 +45,7 @@ namespace Projeto01_OrdersManager.Controllers
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(OrderDTO orderDTO)
         {
-            OrderService orderService = new OrderService(_context);
-            Order order = await orderService.CreateOrder(orderDTO);
+            Order order = await _service.CreateOrder(orderDTO);
 
             return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
         }
