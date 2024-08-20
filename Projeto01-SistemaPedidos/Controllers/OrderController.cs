@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Projeto01_OrdersManager.DTOs;
 using Projeto01_OrdersManager.Models;
 using Projeto01_OrdersManager.Repositories.Data;
+using Projeto01_OrdersManager.Services;
 
 namespace Projeto01_OrdersManager.Controllers
 {
@@ -39,58 +40,11 @@ namespace Projeto01_OrdersManager.Controllers
             return order;
         }
 
-        private async Task<Customer?> GetCustomer(string customerId)
-        {
-            Customer? customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
-            return customer;
-        }
-
-        private async Task<List<Product>> GetProducts(IEnumerable<string> productsIds)
-        {
-            List<Product> products = await _context
-                .Products
-                .Where(p => productsIds.Contains(p.Id))
-                .ToListAsync();
-
-            return products;
-        }
-
-        private double CalculateTotal(ICollection<Product> products, ICollection<ProductItemDTO> productItemsDTOs)
-        {
-            return products.Sum(p =>
-            {
-                double itemQuantity = productItemsDTOs.FirstOrDefault(pi => pi.ProductId == p.Id)?.Quantity ?? 1;
-                return p.Price * itemQuantity;
-            });
-        }
-
-        private async Task<Order> SaveOrder(Order order)
-        {
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-
-            return order;
-        }
-
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(OrderDTO orderDTO)
         {
-            Customer? customer = await GetCustomer(orderDTO.CustomerId);   
-            if (customer == null)
-            {
-                return BadRequest();
-            }
-
-            List<Product> products = await GetProducts(orderDTO.Products.Select(pi => pi.ProductId));
-
-            Order order = new Order(
-                customer: customer,
-                products: products,
-                orderDate: DateTime.Now,
-                totalAmout: CalculateTotal(products, orderDTO.Products)
-            );
-
-            order = await SaveOrder(order);
+            OrderService orderService = new OrderService(_context);
+            Order order = await orderService.CreateOrder(orderDTO);
 
             return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
         }
