@@ -18,7 +18,9 @@ namespace Projeto01_OrdersManager
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
             );
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
         }
 
         private static void InitializeSwagger(WebApplication app) {
