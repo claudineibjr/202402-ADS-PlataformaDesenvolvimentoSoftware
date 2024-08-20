@@ -5,8 +5,6 @@ namespace Projeto01_OrdersManager.Models
 {
     public class Order
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
         public string Id { get; set; }
         public Customer Customer { get; set; }
         public DateTime OrderDate { get; set; }
