@@ -24,12 +24,6 @@ public partial class OrdersDbContext : DbContext
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
 
-        modelBuilder.Entity<Order>()
-            .HasKey(o => o.Id);
-        modelBuilder.Entity<Order>()
-            .Property(o => o.Id)
-            .ValueGeneratedOnAdd();
-
         OnModelCreatingPartial(modelBuilder);
     }
 

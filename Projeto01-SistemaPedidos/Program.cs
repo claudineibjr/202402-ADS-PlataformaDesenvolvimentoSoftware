@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Projeto01_OrdersManager.Repositories;
 using Projeto01_OrdersManager.Repositories.Data;
-using Projeto01_OrdersManager.Services;
 
 namespace Projeto01_OrdersManager
 {
@@ -23,11 +21,6 @@ namespace Projeto01_OrdersManager
 
         private static void AddControllersAndDependencies(IHostApplicationBuilder builder)
         {
-            builder.Services.AddScoped<OrderService>();
-            builder.Services.AddScoped<OrderRepository>();
-            builder.Services.AddScoped<CustomerRepository>();
-            builder.Services.AddScoped<ProductRepository>();
-
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
