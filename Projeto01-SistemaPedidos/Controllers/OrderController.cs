@@ -67,12 +67,7 @@ namespace Projeto01_OrdersManager.Controllers
             Order order = new Order(
                 customer: customer,
                 products: orderItems,
-                orderDate: DateTime.Now,
-                totalAmount: products.Sum(p =>
-                {
-                    double itemQuantity = orderDTO.Products.FirstOrDefault(pi => pi.ProductId == p.Id)?.Quantity ?? 1;
-                    return p.Price * itemQuantity;
-                })
+                orderDate: DateTime.Now
             );
 
             _context.Entry(orderDTO).State = EntityState.Modified;

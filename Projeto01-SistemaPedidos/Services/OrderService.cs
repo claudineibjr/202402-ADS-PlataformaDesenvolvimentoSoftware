@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Projeto01_OrdersManager.DTOs;
+﻿using Projeto01_OrdersManager.DTOs;
 using Projeto01_OrdersManager.Models;
 using Projeto01_OrdersManager.Repositories;
 using Projeto01_OrdersManager.Repositories.Data;
@@ -13,15 +12,6 @@ namespace Projeto01_OrdersManager.Services
         public OrderService(OrdersDbContext context)
         {
             _context = context;
-        }
-
-        private double CalculateTotal(ICollection<Product> products, ICollection<ProductItemDTO> productItemsDTOs)
-        {
-            return products.Sum(p =>
-            {
-                double itemQuantity = productItemsDTOs.FirstOrDefault(pi => pi.ProductId == p.Id)?.Quantity ?? 1;
-                return p.Price * itemQuantity;
-            });
         }
 
         public async Task<Order> CreateOrder(OrderDTO orderDTO)
@@ -41,8 +31,7 @@ namespace Projeto01_OrdersManager.Services
             Order order = new Order(
                 customer: customer,
                 products: orderItems,
-                orderDate: DateTime.Now,
-                totalAmount: CalculateTotal(products, orderDTO.Products)
+                orderDate: DateTime.Now
             );
 
             order = await orderRepository.SaveOrder(order);

@@ -44,7 +44,7 @@ namespace Projeto01_OrdersManager.Repositories.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Order", b =>
@@ -72,7 +72,7 @@ namespace Projeto01_OrdersManager.Repositories.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Projeto01_OrdersManager.Models.OrderItem", b =>
@@ -97,7 +97,7 @@ namespace Projeto01_OrdersManager.Repositories.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItem", (string)null);
                 });
 
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Product", b =>
@@ -119,7 +119,7 @@ namespace Projeto01_OrdersManager.Repositories.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Projeto01_OrdersManager.Models.Order", b =>
