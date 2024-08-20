@@ -11,16 +11,16 @@ namespace Projeto01_OrdersManager.Models
         public Customer Customer { get; set; }
         public DateTime OrderDate { get; set; }
         public IEnumerable<OrderItem> Products { get; set; } = new List<OrderItem>();
-        public double TotalAmout { get; set; }
+        public double TotalAmount { get; set; }
 
         private Order() { }
 
-        public Order(Customer customer, List<OrderItem> products, DateTime orderDate, double totalAmout)
+        public Order(Customer customer, List<OrderItem> products, DateTime orderDate, double totalAmount)
         {
             Customer = customer;
             Products = products;
             OrderDate = orderDate;
-            TotalAmout = totalAmout;
+            TotalAmount = totalAmount;
         }
     }
 }

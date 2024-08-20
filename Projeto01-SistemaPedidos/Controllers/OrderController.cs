@@ -68,7 +68,7 @@ namespace Projeto01_OrdersManager.Controllers
                 customer: customer,
                 products: orderItems,
                 orderDate: DateTime.Now,
-                totalAmout: products.Sum(p =>
+                totalAmount: products.Sum(p =>
                 {
                     double itemQuantity = orderDTO.Products.FirstOrDefault(pi => pi.ProductId == p.Id)?.Quantity ?? 1;
                     return p.Price * itemQuantity;

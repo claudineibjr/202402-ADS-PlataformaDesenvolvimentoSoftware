@@ -42,7 +42,7 @@ namespace Projeto01_OrdersManager.Services
                 customer: customer,
                 products: orderItems,
                 orderDate: DateTime.Now,
-                totalAmout: CalculateTotal(products, orderDTO.Products)
+                totalAmount: CalculateTotal(products, orderDTO.Products)
             );
 
             order = await orderRepository.SaveOrder(order);
