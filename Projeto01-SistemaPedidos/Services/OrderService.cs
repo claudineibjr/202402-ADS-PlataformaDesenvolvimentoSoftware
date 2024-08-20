@@ -33,10 +33,14 @@ namespace Projeto01_OrdersManager.Services
             Customer customer = await customerRepository.GetCustomer(orderDTO.CustomerId);
             
             List<Product> products = await productRepository.GetProducts(orderDTO.Products.Select(pi => pi.ProductId));
+            List<OrderItem> orderItems = orderDTO.
+                Products
+                .Select(pi => new OrderItem { Product = products.First(p => p.Id == pi.ProductId), Quantity = pi.Quantity })
+                .ToList();
 
             Order order = new Order(
                 customer: customer,
-                products: products,
+                products: orderItems,
                 orderDate: DateTime.Now,
                 totalAmout: CalculateTotal(products, orderDTO.Products)
             );

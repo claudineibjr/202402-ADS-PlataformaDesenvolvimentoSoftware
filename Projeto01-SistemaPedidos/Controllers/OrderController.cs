@@ -59,10 +59,14 @@ namespace Projeto01_OrdersManager.Controllers
             }
 
             List<Product> products = await _context.Products.Where(p => orderDTO.Products.Select(pi => pi.ProductId).Contains(p.Id)).ToListAsync();
+            List<OrderItem> orderItems = orderDTO.
+                Products
+                .Select(pi => new OrderItem { Product = products.First(p => p.Id == pi.ProductId), Quantity = pi.Quantity })
+                .ToList();
 
             Order order = new Order(
                 customer: customer,
-                products: products,
+                products: orderItems,
                 orderDate: DateTime.Now,
                 totalAmout: products.Sum(p =>
                 {
