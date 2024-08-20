@@ -28,7 +28,6 @@ namespace Projeto01_OrdersManager
             builder.Services.AddScoped<CustomerRepository>();
             builder.Services.AddScoped<ProductRepository>();
 
-
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);

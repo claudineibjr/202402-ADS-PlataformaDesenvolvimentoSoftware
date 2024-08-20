@@ -53,41 +53,7 @@ namespace Projeto01_OrdersManager.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOrder(string id, OrderDTO orderDTO)
         {
-            Customer? customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == orderDTO.CustomerId);
-            if (customer == null)
-            {
-                return BadRequest();
-            }
-
-            List<Product> products = await _context.Products.Where(p => orderDTO.Products.Select(pi => pi.ProductId).Contains(p.Id)).ToListAsync();
-            List<OrderItem> orderItems = orderDTO.
-                Products
-                .Select(pi => new OrderItem { Product = products.First(p => p.Id == pi.ProductId), Quantity = pi.Quantity })
-                .ToList();
-
-            Order order = new Order(
-                customer: customer,
-                products: orderItems,
-                orderDate: DateTime.Now
-            );
-
-            _context.Entry(orderDTO).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Orders.Any(e => e.Id == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _service.UpdateOrder(id, orderDTO);
 
             return NoContent();
         }
