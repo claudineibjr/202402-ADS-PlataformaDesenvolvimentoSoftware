@@ -7,14 +7,15 @@ namespace Projeto01_OrdersManager.Services
     public class OrderService
     {
         private readonly OrderRepository _orderRepository;
-        private readonly CustomerRepository _customerRepository;
-        private readonly ProductRepository _productRepository;
+        private readonly CustomerService _customerService;
+        private readonly ProductService _productService;
+        
 
-        public OrderService(OrderRepository orderRepository, CustomerRepository customerRepository, ProductRepository productRepository)
+        public OrderService(OrderRepository orderRepository, CustomerService customerService, ProductService productService)
         {
             _orderRepository = orderRepository;
-            _customerRepository = customerRepository;
-            _productRepository = productRepository;
+            _customerService = customerService;
+            _productService = productService;
         }
 
         private async Task<Order> _GetOrderBasedOnItsDTO(OrderDTO orderDTO, string existingOrderId)
@@ -27,9 +28,9 @@ namespace Projeto01_OrdersManager.Services
 
         private async Task<Order> _GetOrderAndItsData(OrderDTO orderDTO)
         {
-            Customer customer = await _customerRepository.GetCustomer(orderDTO.CustomerId);
+            Customer customer = await _customerService.GetCustomer(orderDTO.CustomerId);
 
-            List<Product> products = await _productRepository.GetProducts(orderDTO.Products.Select(pi => pi.ProductId));
+            List<Product> products = await _productService.GetProductsByIds(orderDTO.Products.Select(pi => pi.ProductId));
             List<OrderItem> orderItems = orderDTO.
                 Products
                 .Select(pi => new OrderItem { Product = products.First(p => p.Id == pi.ProductId), Quantity = pi.Quantity })

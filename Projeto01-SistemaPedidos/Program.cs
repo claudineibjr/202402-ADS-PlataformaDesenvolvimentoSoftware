@@ -24,6 +24,9 @@ namespace Projeto01_OrdersManager
         private static void AddControllersAndDependencies(IHostApplicationBuilder builder)
         {
             builder.Services.AddScoped<OrderService>();
+            builder.Services.AddScoped<CustomerService>();
+            builder.Services.AddScoped<ProductService>();
+
             builder.Services.AddScoped<OrderRepository>();
             builder.Services.AddScoped<CustomerRepository>();
             builder.Services.AddScoped<ProductRepository>();
@@ -70,7 +73,7 @@ namespace Projeto01_OrdersManager
 
             if (app.Environment.IsDevelopment())
             {
-                // Inicialização do Swagger
+                // Inicializaï¿½ï¿½o do Swagger
                 InitializeSwagger(app);
             }
 
