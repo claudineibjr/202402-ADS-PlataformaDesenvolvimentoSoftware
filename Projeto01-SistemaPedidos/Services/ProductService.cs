@@ -9,7 +9,7 @@ namespace Projeto01_OrdersManager.Services {
       _productRepository = productRepository;
     }
 
-    public async Task<List<Product>> GetProductsByIds(IEnumerable<string> productsIds) {
+    public async Task<List<Product>> GetProducts(IEnumerable<string> productsIds) {
       return await _productRepository.GetProducts(productsIds);
     }
   }

@@ -18,19 +18,19 @@ namespace Projeto01_OrdersManager.Services
             _productService = productService;
         }
 
-        private async Task<Order> _GetOrderBasedOnItsDTO(OrderDTO orderDTO, string existingOrderId)
+        private async Task<Order> GetOrderBasedOnItsDTO(OrderDTO orderDTO, string existingOrderId)
         {
-            Order order = await _GetOrderAndItsData(orderDTO);
+            Order order = await GetOrderAndItsData(orderDTO);
             order.Id = existingOrderId;
 
             return order;
         }
 
-        private async Task<Order> _GetOrderAndItsData(OrderDTO orderDTO)
+        private async Task<Order> GetOrderAndItsData(OrderDTO orderDTO)
         {
             Customer customer = await _customerService.GetCustomer(orderDTO.CustomerId);
 
-            List<Product> products = await _productService.GetProductsByIds(orderDTO.Products.Select(pi => pi.ProductId));
+            List<Product> products = await _productService.GetProducts(orderDTO.Products.Select(pi => pi.ProductId));
             List<OrderItem> orderItems = orderDTO.
                 Products
                 .Select(pi => new OrderItem { Product = products.First(p => p.Id == pi.ProductId), Quantity = pi.Quantity })
@@ -47,7 +47,7 @@ namespace Projeto01_OrdersManager.Services
 
         public async Task<Order> CreateOrder(OrderDTO orderDTO)
         {
-            Order order = await _GetOrderAndItsData(orderDTO);
+            Order order = await GetOrderAndItsData(orderDTO);
 
             order = await _orderRepository.SaveOrder(order);
 
@@ -58,7 +58,7 @@ namespace Projeto01_OrdersManager.Services
         {
             Order existingOrder = await _orderRepository.GetOrder(orderId);
 
-            Order newOrder = await _GetOrderBasedOnItsDTO(orderDTO, orderId);
+            Order newOrder = await GetOrderBasedOnItsDTO(orderDTO, orderId);
             await _orderRepository.UpdateOrder(existingOrder, newOrder);
 
             return newOrder;
