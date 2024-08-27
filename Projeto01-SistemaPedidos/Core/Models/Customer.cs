@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Projeto01_OrdersManager.Models
+namespace Projeto01_OrdersManager.Core.Models
 {
     public class Customer
     {

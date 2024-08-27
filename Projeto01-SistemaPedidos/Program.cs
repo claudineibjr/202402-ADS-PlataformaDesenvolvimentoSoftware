@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Projeto01_OrdersManager.Repositories;
 using Projeto01_OrdersManager.Repositories.Data;
-using Projeto01_OrdersManager.Services;
+using Projeto01_OrdersManager.Core.Services;
 
 namespace Projeto01_OrdersManager
 {

@@ -1,8 +1,9 @@
 ﻿using Projeto01_OrdersManager.DTOs;
-using Projeto01_OrdersManager.Models;
+using Projeto01_OrdersManager.Core.Models;
+using Projeto01_OrdersManager.Core.Services;
 using Projeto01_OrdersManager.Repositories;
 
-namespace Projeto01_OrdersManager.Services
+namespace Projeto01_OrdersManager.Core.Services
 {
     public class OrderService
     {

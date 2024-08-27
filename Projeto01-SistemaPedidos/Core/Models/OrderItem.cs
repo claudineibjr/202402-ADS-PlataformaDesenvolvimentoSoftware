@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Projeto01_OrdersManager.Models
+namespace Projeto01_OrdersManager.Core.Models
 {
     public class OrderItem
     {
