@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Projeto01_OrdersManager.Core.Models;
+using Projeto01_OrdersManager.Models;
 using Projeto01_OrdersManager.Repositories.Data;
 
 namespace Projeto01_OrdersManager.Repositories
@@ -13,16 +13,9 @@ namespace Projeto01_OrdersManager.Repositories
             _context = context;
         }
 
-        public async Task<Customer> GetCustomer(string customerId)
+        public async Task<Customer?> GetCustomer(string customerId)
         {
-            Customer? customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
-            if (customer == null)
-            {
-                throw new Exception("Customer not found");
-            }
-
-            return customer;
+            return await _context.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
         }
-
     }
 }

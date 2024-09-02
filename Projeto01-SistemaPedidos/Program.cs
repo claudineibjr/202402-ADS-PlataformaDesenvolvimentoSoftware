@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Projeto01_OrdersManager.Repositories;
 using Projeto01_OrdersManager.Repositories.Data;
-using Projeto01_OrdersManager.Core.Services;
+using Projeto01_OrdersManager.Services;
 
 namespace Projeto01_OrdersManager
 {
@@ -23,17 +23,18 @@ namespace Projeto01_OrdersManager
 
         private static void AddControllersAndDependencies(IHostApplicationBuilder builder)
         {
-            builder.Services.AddScoped<OrderService>();
-            builder.Services.AddScoped<CustomerService>();
-            builder.Services.AddScoped<ProductService>();
-
-            builder.Services.AddScoped<OrderRepository>();
-            builder.Services.AddScoped<CustomerRepository>();
-            builder.Services.AddScoped<ProductRepository>();
-
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
+
+            builder.Services.AddScoped<CustomerService>();
+            builder.Services.AddScoped<ProductService>();
+
+            builder.Services.AddScoped<CustomerRepository>();
+            builder.Services.AddScoped<ProductRepository>();
+            builder.Services.AddScoped<OrderRepository>();
+
+            builder.Services.AddScoped<OrderService>();
         }
 
         private static void InitializeSwagger(WebApplication app) {
@@ -73,7 +74,7 @@ namespace Projeto01_OrdersManager
 
             if (app.Environment.IsDevelopment())
             {
-                // Inicializaï¿½ï¿½o do Swagger
+                // Inicialização do Swagger
                 InitializeSwagger(app);
             }
 

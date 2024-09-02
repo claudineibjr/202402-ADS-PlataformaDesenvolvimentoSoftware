@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Projeto01_OrdersManager.DTOs;
 
-namespace Projeto01_OrdersManager.Core.Models
+namespace Projeto01_OrdersManager.Models
 {
     public class Order
     {
@@ -9,9 +10,10 @@ namespace Projeto01_OrdersManager.Core.Models
         public Customer Customer { get; set; }
         public DateTime OrderDate { get; set; }
         public List<OrderItem> Products { get; set; } = new List<OrderItem>();
-        public double TotalAmount {
-            get { return Products.Sum(pi => pi.Product.Price * pi.Quantity); }
-            private set { }
+        public double TotalAmount { get
+            {
+                return Products.Sum((product) => product.Quantity * product.Product.Price);
+            } private set {}
         }
 
         private Order() { }

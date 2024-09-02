@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Projeto01_OrdersManager.Core.Models;
+using Projeto01_OrdersManager.Models;
 
 namespace Projeto01_OrdersManager.Repositories.Data
 {

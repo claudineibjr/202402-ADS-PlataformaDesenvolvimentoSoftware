@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Projeto01_OrdersManager.Core.Models;
+using Projeto01_OrdersManager.Models;
+using System.Reflection.Metadata;
 
 namespace Projeto01_OrdersManager.Repositories.Data;
 
@@ -22,12 +23,30 @@ public partial class OrdersDbContext : DbContext
     {
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
-            .HasCharSet("utf8mb4");
+        .HasCharSet("utf8mb4");
+
+        modelBuilder.Entity<Customer>()
+            .HasKey(c => c.Id);
+        modelBuilder.Entity<Customer>()
+            .Property(c => c.Id)
+            .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<Order>()
             .HasKey(o => o.Id);
         modelBuilder.Entity<Order>()
             .Property(o => o.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<OrderItem>()
+            .HasKey(oi => oi.Id);
+        modelBuilder.Entity<OrderItem>()
+            .Property(oi => oi.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Product>()
+            .HasKey(p => p.Id);
+        modelBuilder.Entity<Product>()
+            .Property(p => p.Id)
             .ValueGeneratedOnAdd();
 
         OnModelCreatingPartial(modelBuilder);
