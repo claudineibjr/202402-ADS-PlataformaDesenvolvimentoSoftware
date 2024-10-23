@@ -74,7 +74,7 @@ namespace Projeto01_OrdersManager
 
             if (app.Environment.IsDevelopment())
             {
-                // Inicialização do Swagger
+                // Inicializaï¿½ï¿½o do Swagger
                 InitializeSwagger(app);
             }
 
