@@ -53,7 +53,7 @@ namespace Presentation
 
         private static void AuthenticationMiddleware(IHostApplicationBuilder builder)
         {
-            // Configuração de autenticação e autorização
+            // Configuraï¿½ï¿½o de autenticaï¿½ï¿½o e autorizaï¿½ï¿½o
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -67,6 +67,17 @@ namespace Presentation
                     };
                 });
             builder.Services.AddAuthorization();
+        }
+
+        private static void ConfigureCors(IHostApplicationBuilder builder) {
+          builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("PermitirTodasOrigens",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                    });
+            });
         }
 
         private static void InitializeSwagger(WebApplication app)
@@ -95,6 +106,8 @@ namespace Presentation
             }
         }
 
+
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -103,18 +116,21 @@ namespace Presentation
             InjectRepositoryDependency(builder);
             AddControllersAndDependencies(builder);
             AuthenticationMiddleware(builder);
+            ConfigureCors(builder);
 
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
             {
-                // Inicialização do Swagger
+                // Inicializaï¿½ï¿½o do Swagger
                 InitializeSwagger(app);
             }
 
             SeedOnInitialize(app);
 
             app.MapControllers();
+
+            app.UseCors("PermitirTodasOrigens");
 
             app.Run();
         }
