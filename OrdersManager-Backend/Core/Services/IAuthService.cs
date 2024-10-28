@@ -7,7 +7,7 @@ namespace Core.Services
 
         public Task<string> SignIn(string email, string password);
 
-        public string? GetAuthenticatedUserId(ClaimsPrincipal User);
+        public string GetAuthenticatedUserId(ClaimsPrincipal User);
 
     }
 }

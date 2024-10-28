@@ -17,9 +17,14 @@ namespace Application.Services
             _tokenService = tokenService;
         }
 
-        public string? GetAuthenticatedUserId(ClaimsPrincipal User)
+        public string GetAuthenticatedUserId(ClaimsPrincipal User)
         {
-            return User.FindFirst("id")?.Value;
+            string? userId = User.FindFirst("id")?.Value;
+            if (userId == null) {
+              throw new Exception("User not found");
+            }
+
+            return userId;
         }
 
         public async Task<string> SignIn(string email, string password)

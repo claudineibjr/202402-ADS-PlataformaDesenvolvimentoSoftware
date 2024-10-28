@@ -20,6 +20,15 @@ namespace Presentation.Controllers
             _authService = authService;
         }
 
+        [HttpGet]
+        public async Task<List<Order>> GetOrders()
+        {
+            string customerId = _authService.GetAuthenticatedUserId(User);
+            List<Order> orders = await _orderService.GetOrdersByCustomer(customerId);
+
+            return orders;
+        }
+
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(OrderDTO orderDTO)
         {

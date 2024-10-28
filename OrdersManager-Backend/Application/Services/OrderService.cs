@@ -28,6 +28,11 @@ namespace Application.Services
             _notificationService = notificationService;
         }
 
+        public async Task<List<Order>> GetOrdersByCustomer(string customerId)
+        {
+            return await _orderRepository.GetOrdersByCustomer(customerId);
+        }
+
         public async Task<Order> SaveOrder(string customerId, ICollection<ProductItemDTO> productsDTO)
         {
             Customer customer = await _customerService.GetCustomerOrThrowException(customerId);
