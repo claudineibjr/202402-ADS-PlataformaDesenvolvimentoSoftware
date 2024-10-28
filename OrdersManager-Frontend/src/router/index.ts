@@ -1,24 +1,26 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import authRoutes from './authRoutes';
 import LoginView from '@/views/LoginView.vue';
 import OrdersView from '@/views/OrdersView.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+
+export const routes = {
+  login: '/login',
+  orders: '/orders',
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/login',
+      path: routes.login,
       name: 'login',
       component: LoginView,
     },
     {
-      path: '/orders',
+      path: routes.orders,
       name: 'orders',
       component: OrdersView,
     },
   ]
-})
-
-router.beforeEach(authRoutes);
+});
 
 export default router;
