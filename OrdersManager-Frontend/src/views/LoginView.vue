@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import api from '@/api';
 import TextInput from '@/components/TextInput.vue';
 import router, { routes } from '@/router';
 import { ref } from 'vue'
@@ -6,10 +7,21 @@ import { ref } from 'vue'
 const email = ref("");
 const password = ref("");
 
-function submit() {
-  console.log({ email: email.value, password: password.value }, 'Parâmetros do login');
-  if (true) {
+type SignInResult = string;
+
+async function submit() {
+  const signInParameters = { email: email.value, password: password.value };
+  
+  console.log({ signInParameters }, 'Parâmetros do login');
+
+  try {
+    await api.post<SignInResult>('/auth/signIn', signInParameters);
+    
     router.replace(routes.orders);
+  } catch (error) {
+    alert("Falha no login");
+
+    console.error({ error }, 'Falha no login');
   }
 }
 </script>
