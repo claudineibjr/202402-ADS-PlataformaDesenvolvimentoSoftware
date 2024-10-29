@@ -2,8 +2,6 @@
 import OrdersTableHeader from '@/components/OrdersTableHeader.vue';
 import OrdersTableItem from '@/components/OrdersTableItem.vue';
 import type { OrderType } from '@/models/Order';
-import router, { routes } from '@/router';
-import { onMounted } from 'vue';
 
 const orders: OrderType[] = [
   {
@@ -86,14 +84,6 @@ const orders: OrderType[] = [
   }
 ];
 
-onMounted(() => {
-  const token = window.localStorage.getItem("AUTH_TOKEN");
-
-  const isAuthenticated = Boolean(token);
-  if (!isAuthenticated) {
-    router.replace(routes.login);
-  }
-});
 </script>
 
 <template fluid>
