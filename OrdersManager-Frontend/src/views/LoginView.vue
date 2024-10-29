@@ -2,12 +2,14 @@
 import api from '@/api';
 import TextInput from '@/components/TextInput.vue';
 import router, { routes } from '@/router';
+import type { AxiosResponse } from 'axios';
 import { ref } from 'vue'
 
 const email = ref("");
 const password = ref("");
 
-type SignInResult = string;
+type SignInResultType = string;
+type SignInParametersType = { email: string; password: string; };
 
 async function submit() {
   const signInParameters = { email: email.value, password: password.value };
@@ -15,7 +17,7 @@ async function submit() {
   console.log({ signInParameters }, 'Parâmetros do login');
 
   try {
-    const signInResult = await api.post<SignInResult>('/auth/signIn', signInParameters);
+    const signInResult = await api.post<SignInResultType, AxiosResponse<SignInResultType>, SignInParametersType>('/auth/signIn', signInParameters);
     
     window.localStorage.setItem("AUTH_TOKEN", signInResult.data);
 
