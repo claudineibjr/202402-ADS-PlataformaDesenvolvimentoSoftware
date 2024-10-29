@@ -2,7 +2,7 @@
 import api from '@/api';
 import TextInput from '@/components/TextInput.vue';
 import router, { routes } from '@/router';
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const email = ref("");
 const password = ref("");
@@ -15,8 +15,10 @@ async function submit() {
   console.log({ signInParameters }, 'Parâmetros do login');
 
   try {
-    await api.post<SignInResult>('/auth/signIn', signInParameters);
+    const signInResult = await api.post<SignInResult>('/auth/signIn', signInParameters);
     
+    window.localStorage.setItem("AUTH_TOKEN", signInResult.data);
+
     router.replace(routes.orders);
   } catch (error) {
     alert("Falha no login");
@@ -24,6 +26,15 @@ async function submit() {
     console.error({ error }, 'Falha no login');
   }
 }
+
+onMounted(() => {
+  const token = window.localStorage.getItem("AUTH_TOKEN");
+
+  const isAuthenticated = Boolean(token);
+  if (isAuthenticated) {
+    router.replace(routes.orders);
+  }
+});
 </script>
 
 <template>
