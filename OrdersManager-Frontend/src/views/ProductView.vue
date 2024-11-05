@@ -4,14 +4,16 @@ import { onMounted, ref } from 'vue';
 import type { ProductType } from '@/models/Product';
 import { formatCurrency } from '@/utils/formatCurrency';
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 type ProductViewProps = {
   id: string;
 };
-
 const props = defineProps<ProductViewProps>();
 const productId = props.id;
 
 const product = ref<ProductType>();
+
 const isLoading = ref(false);
 
 onMounted(async () => {
@@ -55,7 +57,7 @@ onMounted(async () => {
       </div>
 
       <div v-if="product!.imageUrl">
-        <img :src="product?.imageUrl">
+        <img :src="`${backendURL}/${product?.imageUrl}`">
       </div>
       <div v-else>Sem imagem</div>
     </div>
