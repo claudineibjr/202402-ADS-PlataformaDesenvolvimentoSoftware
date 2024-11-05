@@ -36,7 +36,7 @@ onMounted(async () => {
 </script>
 
 <template fluid>
-  <div class="product-page"> 
+  <div class="product-page">
     Product {{ props.id }}
 
     <br/>
@@ -45,8 +45,7 @@ onMounted(async () => {
     <div v-if="isLoading">
       Loading...
     </div>
-    
-    <div v-if="!isLoading && Boolean(product)" class="product-info">
+    <div v-else-if="!isLoading && Boolean(product)" class="product-info">
       <div>
         Nome: {{ product!.name }}
       </div>
@@ -54,6 +53,11 @@ onMounted(async () => {
       <div>
         Valor: {{ formatCurrency(product!.price) }}
       </div>
+
+      <div v-if="product!.imageUrl">
+        <img :src="product?.imageUrl">
+      </div>
+      <div v-else>Sem imagem</div>
     </div>
   </div>
   
