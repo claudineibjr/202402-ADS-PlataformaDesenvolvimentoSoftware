@@ -13,6 +13,16 @@ namespace Application.Services
             _productRepository = productRepository;
         }
 
+        public async Task<Product> GetProduct(string productsId)
+        {
+          Product? product = await _productRepository.GetProduct(productsId);
+          if (product == null) {
+            throw new Exception("Product not found");
+          }
+
+          return product;
+        }
+
         public async Task<List<Product>> GetProducts(List<string> productsIds)
         {
             return await _productRepository.GetProducts(productsIds);
