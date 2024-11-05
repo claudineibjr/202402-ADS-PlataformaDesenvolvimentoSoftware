@@ -157,6 +157,8 @@ namespace Presentation
 
             app.UseCors("PermitirTodasOrigens");
 
+            app.UseStaticFiles();
+
             app.Run();
         }
     }
