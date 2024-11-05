@@ -6,5 +6,6 @@ namespace Core.Services
     {
         public Task<Product> GetProduct(string productId);
         public Task<List<Product>> GetProducts(List<string> productsIds);
+        public Task<string> UploadProductImage(string productId, FileData file);
     }
 }
