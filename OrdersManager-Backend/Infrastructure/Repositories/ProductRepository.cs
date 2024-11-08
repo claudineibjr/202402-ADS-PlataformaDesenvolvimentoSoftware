@@ -15,6 +15,15 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<Product?> GetProduct(string productId)
+        {
+            Product? product = await _context
+               .Products
+               .FindAsync(productId);
+
+            return product;
+        }
+
         public async Task<List<Product>> GetProducts(List<string> productsIds)
         {
             List<Product> products = await _context
