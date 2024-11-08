@@ -6,5 +6,6 @@ namespace Core.Repositories
     {
         public Task<Product?> GetProduct(string productsId);
         public Task<List<Product>> GetProducts(List<string> productsIds);
+        public Task UpdateProduct();
     }
 }

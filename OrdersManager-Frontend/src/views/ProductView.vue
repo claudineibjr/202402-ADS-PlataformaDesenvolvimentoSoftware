@@ -13,14 +13,16 @@ const props = defineProps<ProductViewProps>();
 const productId = props.id;
 
 const product = ref<ProductType>();
+const newImage = ref();
 
-const isLoading = ref(false);
+const isLoadingProduct = ref(false);
+const isLoadingProductUpload = ref(false);
 
-onMounted(async () => {
+async function loadProduct() {
   console.log('Buscando produto...');
 
   try {
-    isLoading.value = true;
+    isLoadingProduct.value = true;
     const productResult = await api.get<ProductType>(`/product/${productId}`);
 
     console.log({ productResult }, '[Product]');
@@ -31,9 +33,54 @@ onMounted(async () => {
 
     console.error({ error }, 'Falha ao buscar produto');
   } finally {
-    isLoading.value = false;
+    isLoadingProduct.value = false;
   }
+}
+
+onMounted(() => {
+  loadProduct();
 });
+
+function onFileChange(event: Event) {
+  const target = event.target as HTMLInputElement;
+
+  console.log({ files: target.files });
+
+  if (target?.files && target?.files.length > 0) {
+    console.log("Imagem salva");
+    newImage.value = target.files[0];
+  }
+}
+
+async function uploadImage() {
+  console.log('Salvando imagem do produto...');
+
+  const oldImageUrl = product.value?.imageUrl;
+
+  try {
+    if (!newImage.value) return;
+    product.value!.imageUrl = undefined;
+
+    isLoadingProductUpload.value = true;
+
+    const formData = new FormData();
+    formData.append('file', newImage.value);
+
+    await api.post<string>(`/product/${productId}/UploadImage`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+    location.reload();
+  } catch (error) {
+    product.value!.imageUrl = oldImageUrl;
+
+    alert("Falha ao salvar imagem do produto");
+
+    console.error({ error }, 'Falha ao salvar imagem do produto');
+  } finally {
+    isLoadingProductUpload.value = false;
+  }
+}
 
 </script>
 
@@ -44,10 +91,10 @@ onMounted(async () => {
     <br/>
     <br/>
 
-    <div v-if="isLoading">
+    <div v-if="isLoadingProduct">
       Loading...
     </div>
-    <div v-else-if="!isLoading && Boolean(product)" class="product-info">
+    <div v-else-if="!isLoadingProduct && Boolean(product)" class="product-info">
       <div>
         Nome: {{ product!.name }}
       </div>
@@ -56,10 +103,21 @@ onMounted(async () => {
         Valor: {{ formatCurrency(product!.price) }}
       </div>
 
-      <div v-if="product!.imageUrl">
-        <img :src="`${backendURL}/${product?.imageUrl}`">
+      <div v-if="isLoadingProductUpload">
+        Loading...
       </div>
-      <div v-else>Sem imagem</div>
+
+      <div v-else>
+        <div v-if="product!.imageUrl">
+          <img :src="`${backendURL}/${product?.imageUrl}`">
+        </div>
+        <div v-else>Sem imagem</div>
+
+        <div>
+          <input type="file" @change="onFileChange" />
+          <button type="button" @click="uploadImage">Upload</button>
+        </div>
+      </div>
     </div>
   </div>
   

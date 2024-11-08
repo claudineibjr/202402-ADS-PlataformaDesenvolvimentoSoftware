@@ -34,5 +34,9 @@ namespace Infrastructure.Repositories
             return products;
         }
 
-    }
+        public async Task UpdateProduct()
+        {
+          await _context.SaveChangesAsync();
+        }
+  }
 }

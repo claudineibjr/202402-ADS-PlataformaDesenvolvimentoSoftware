@@ -32,21 +32,18 @@ namespace Presentation.Controllers
               return BadRequest("No image found");
           }
 
-          string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf(".") + 1);
+          using var memoryStream = new MemoryStream();
+          await file.CopyToAsync(memoryStream);
 
-          string folderName = "products";
-          string productsUploadFolderPath = Path.Combine("wwwroot", folderName);
-          Directory.CreateDirectory(productsUploadFolderPath);
-
-          string fileName = $"{ProductId}.{fileExtension}";
-          string filePath = Path.Combine(productsUploadFolderPath, fileName);
-
-          using (var stream = new FileStream(filePath, FileMode.Create))
+          var fileData = new FileData
           {
-            await file.CopyToAsync(stream);
-          }
+              FileName = file.FileName,
+              Content = memoryStream.ToArray(),
+              ContentType = file.ContentType,
+              Extension = Path.GetExtension(file.FileName),
+          };
 
-          string imageUrl = $"/{folderName}/{fileName}";
+          string imageUrl = await _productService.UploadProductImage(ProductId, fileData);
 
           return CreatedAtAction(nameof(UploadImage), imageUrl);
         }
