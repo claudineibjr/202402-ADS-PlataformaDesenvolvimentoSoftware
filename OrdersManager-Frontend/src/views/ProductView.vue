@@ -4,14 +4,16 @@ import { onMounted, ref } from 'vue';
 import type { ProductType } from '@/models/Product';
 import { formatCurrency } from '@/utils/formatCurrency';
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 type ProductViewProps = {
   id: string;
 };
-
 const props = defineProps<ProductViewProps>();
 const productId = props.id;
 
 const product = ref<ProductType>();
+
 const isLoading = ref(false);
 
 onMounted(async () => {
@@ -36,7 +38,7 @@ onMounted(async () => {
 </script>
 
 <template fluid>
-  <div class="product-page"> 
+  <div class="product-page">
     Product {{ props.id }}
 
     <br/>
@@ -45,8 +47,7 @@ onMounted(async () => {
     <div v-if="isLoading">
       Loading...
     </div>
-    
-    <div v-if="!isLoading && Boolean(product)" class="product-info">
+    <div v-else-if="!isLoading && Boolean(product)" class="product-info">
       <div>
         Nome: {{ product!.name }}
       </div>
@@ -54,6 +55,11 @@ onMounted(async () => {
       <div>
         Valor: {{ formatCurrency(product!.price) }}
       </div>
+
+      <div v-if="product!.imageUrl">
+        <img :src="`${backendURL}/${product?.imageUrl}`">
+      </div>
+      <div v-else>Sem imagem</div>
     </div>
   </div>
   
